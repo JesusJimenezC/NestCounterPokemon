@@ -1,11 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterSlice from '@/lib/features/counter/counterSlice';
+import pokemonsSlice from '@/lib/features/pokemons/pokemonsSlice';
+import { localstorageMiddleware } from '@/lib/middlewares/localstorageMiddleware';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       counter: counterSlice,
+      pokemons: pokemonsSlice,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: { extraArgument: localstorageMiddleware },
+        serializableCheck: false,
+      }),
   });
 };
 
